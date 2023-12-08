@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three Js</title>
+</head>
+<body>
+    <div id="container"></div>
+
+    <script type="module">
+        import * as THREE from "./three.module.js"
+        
+        //Scene
+        var scene = new THREE.Scene();
+
+        //Camera
+        var width = window.innerHeight;
+        var height = window.innerHeight;
+        var viewAngle = 45;
+        var nearClipping = 0.1;
+        var farClipping = 9999;
+
+        var camera = new THREE.PerspectiveCamera(viewAngle, width / height, nearClipping, farClipping); 
+        camera.position.set(0,0,10);
+
+        //Geometry + Material = Mesh
+        //BoxGeometry >> CUBE
+        var cubeGeometry = new THREE.BoxGeometry(2,2,2)
+        //MeshBasicMaterial >> Material for cube
+        var cubeMaterial = new THREE.MeshBasicMaterial({color : "yellow"})
+        // Mesh = Geometry + Material
+        var cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
+
+        cube.position.set(0,0,0)
+        // Add Mesh in Scene
+        scene.add(cube)
+        //Renderer
+        var renderer = new THREE.WebGLRenderer({antialize : true});
+        renderer.setSize(width,height);
+
+        //js to get Element
+        var element = document.getElementById("container")
+        //js to append domElement into our HtML
+        element.appendChild(renderer.domElement);
+
+        function animate(){
+            cube.rotation.y += 0.01
+            cube.rotation.x += 0.01
+            requestAnimationFrame(animate); // this method calls `animate` frame again & again
+            renderer.render(scene, camera);
+        }
+        animate();
+
+    </script>
+</body>
+</html>
